@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffac-mesh-vpn-wireguard
 
-include ../gluon.mk
+include $(TOPDIR)/../package/gluon.mk
 
 define Package/ffac-mesh-vpn-wireguard
   TITLE:=Support for connecting meshes via wireguard
