@@ -9,4 +9,4 @@ define Package/ffac-mesh-vpn-wireguard
   DEPENDS:=+gluon-core +libgluonutil +gluon-mesh-vpn-core +wireguard-tools +wgpeerselector +libubus
 endef
 
-$(eval $(call BuildPackageGluon,gluon-mesh-vpn-wireguard))
+$(eval $(call BuildPackageGluon,ffac-mesh-vpn-wireguard))
