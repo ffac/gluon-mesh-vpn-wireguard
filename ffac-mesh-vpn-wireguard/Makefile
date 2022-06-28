@@ -1,10 +1,10 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-mesh-vpn-wireguard
+PKG_NAME:=ffac-mesh-vpn-wireguard
 
 include ../gluon.mk
 
-define Package/gluon-mesh-vpn-wireguard
+define Package/ffac-mesh-vpn-wireguard
   TITLE:=Support for connecting meshes via wireguard
   DEPENDS:=+gluon-core +libgluonutil +gluon-mesh-vpn-core +wireguard-tools +wgpeerselector +libubus
 endef
