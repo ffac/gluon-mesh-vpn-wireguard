@@ -1,6 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffac-mesh-vpn-wireguard
+PKG_VERSION:=1
 
 include $(TOPDIR)/../package/gluon.mk
 
