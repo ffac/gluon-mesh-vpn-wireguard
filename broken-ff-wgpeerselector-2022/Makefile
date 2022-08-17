@@ -1,11 +1,14 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=ff-wgpeerselector
+PKG_NAME:=broken-ff-wgpeerselector-2022
 PKG_VERSION:=1
+PKG_RELEASE:=1
+
+PKG_LICENSE:=GPL-2.0-or-later
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ff-wgpeerselector
+define Package/broken-ff-wgpeerselector-2022
   SECTION:=net
   CATEGORY:=Network
   TITLE:=Wireguard peer selector daemon
@@ -18,8 +21,8 @@ endef
 define Build/Compile
 endef
 
-define Package/ff-wgpeerselector/install
+define Package/broken-ff-wgpeerselector-2022/install
 	$(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackage,ff-wgpeerselector))
+$(eval $(call BuildPackage,broken-ff-wgpeerselector-2022))
