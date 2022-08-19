@@ -1,0 +1,17 @@
+#!/bin/sh
+
+rm /etc/config/wireguard
+touch /etc/config/wireguard
+
+#Ist multidomainsupport aktiviert?
+domain=$(uci get gluon.core.domain)
+if [ -z "$domain" ]; then {                     #falls nein
+        datei="/lib/gluon/site.json";
+} else {                                        #falls ja
+        datei="/lib/gluon/domains/$domain.json";
+}
+fi
+
+uci set wireguard.wireguard=wireguard
+uci set wireguard.wireguard.broker=$(jsonfilter -i $datei -e "$.mesh_vpn.wireguard.broker")
+uci commit wireguard
