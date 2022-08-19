@@ -14,5 +14,5 @@ if [ "$?" -ne "0" ]; then
         NODENAME=$(uci get system.@system[0].hostname)
         BROKER=$(uci get wireguard.mesh_vpn.broker)
         logger -t wg-registration "Post $NODENAME and $PUBLICKEY to $PROTO://$BROKER"
-	gluon-wan wget -4 -q  -O- --post-data='{"node_name": "'"$NODENAME"'","public_key": "'"$PUBLICKEY"'"}' $PROTO://$BROKER
+	gluon-wan wget -q  -O- --post-data='{"node_name": "'"$NODENAME"'","public_key": "'"$PUBLICKEY"'"}' $PROTO://$BROKER
 fi
