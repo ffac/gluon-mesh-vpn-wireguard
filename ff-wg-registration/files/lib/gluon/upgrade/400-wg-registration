@@ -12,6 +12,6 @@ if [ -z "$domain" ]; then {                     #falls nein
 }
 fi
 
-uci set wireguard.wireguard=wireguard
-uci set wireguard.wireguard.broker=$(jsonfilter -i $datei -e "$.mesh_vpn.wireguard.broker")
+uci set wireguard.mesh_vpn=wireguard
+uci set wireguard.mesh_vpn.broker=$(jsonfilter -i $datei -e "$.mesh_vpn.wireguard.broker")
 uci commit wireguard

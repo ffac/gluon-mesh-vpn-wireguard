@@ -8,7 +8,7 @@ if [ "$?" -ne "0" ]; then
         if [ $? -eq 1 ]; then
                 PROTO=http
         else
-                PROTO=https
+                PROTO=http
         fi
         PUBLICKEY=$(uci get network.wg_mesh.private_key | wg pubkey)
         NODENAME=$(uci get system.@system[0].hostname)
