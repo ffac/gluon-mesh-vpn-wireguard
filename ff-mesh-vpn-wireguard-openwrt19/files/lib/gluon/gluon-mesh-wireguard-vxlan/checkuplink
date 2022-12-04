@@ -83,7 +83,6 @@ if [ "$(uci get wireguard.mesh_vpn.enabled)" == "true" ] || [ "$(uci get wiregua
 		ip link delete dev mesh-vpn &> /dev/null
 		ip link del $MESH_VPN_IFACE &> /dev/null
 		PUBLICKEY=$(uci get wireguard.mesh_vpn.privatekey | wg pubkey)
-		SEGMENT=$(uci get gluon.core.domain)
 
 		# Push public key to broker, test for https and use if supported
 		wget -q https://[::1]
