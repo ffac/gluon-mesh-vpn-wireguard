@@ -2,10 +2,14 @@
 
 if [ "$(uci get gluon.mesh_vpn.enabled)" == "true" ] || [ "$(uci get gluon.mesh_vpn.enabled)" == "1" ]; then
         # try to wget the broker to see if connection is available
-        wget http://$(uci get wireguard.mesh_vpn.broker | awk -F '[/]' '{split($1,a," "); printf a[1]}') --timeout=5 -O/dev/null -q
-        if [ "$?" -ne "0" ]; then
+        gw_count = $(batctl gwl -H|grep -v "gateways in range"|wc -l)
+        if [ gw_count -gt 0 ]; then
+                logger -t wg-registration "uplink connected"
+        else
                 wg show | grep "latest handshake"
-                if [ "$?" -ne "0" ]; then
+                if [ "$?" -eq "0" ]; then
+                        logger -t wg-registration "wg connected - but no batman"
+                else
                         logger -t wg-registration "No connection - trying to register"
                         # Push public key to broker, test for https and use if supported
                         wget -q https://[::1]
@@ -20,7 +24,5 @@ if [ "$(uci get gluon.mesh_vpn.enabled)" == "true" ] || [ "$(uci get gluon.mesh_
                         logger -t wg-registration "Post $NODENAME and $PUBLICKEY to $PROTO://$BROKER"
                         gluon-wan wget -q  -O- --post-data='{"node_name": "'"$NODENAME"'","public_key": "'"$PUBLICKEY"'"}' $PROTO://$BROKER
                 fi
-	else
-		logger -t wg-registration "uplink connected"
 	fi
 fi
