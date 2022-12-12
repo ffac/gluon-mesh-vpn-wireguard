@@ -5,10 +5,11 @@ touch /etc/config/wireguard
 
 #Ist multidomainsupport aktiviert?
 domain=$(uci get gluon.core.domain)
-if [ -z "$domain" ]; then {                     #falls nein
-        datei="/lib/gluon/site.json";
-} else {                                        #falls ja
+
+if [ -n "$domain" ] && [ -f /lib/gluon/domains/$domain.json ]; then {
         datei="/lib/gluon/domains/$domain.json";
+} else {                                        #falls ja
+        datei="/lib/gluon/site.json";
 }
 fi
 
