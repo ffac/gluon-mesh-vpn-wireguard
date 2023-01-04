@@ -114,7 +114,7 @@ if [ "$(uci get wireguard.mesh_vpn.enabled)" == "true" ] || [ "$(uci get wiregua
 		ip6tables -I INPUT 1 -i $MESH_VPN_IFACE -m udp -p udp --dport 4789 -j ACCEPT
 		logger -t checkuplink "vxlan link $(interface_linklocal "$MESH_VPN_IFACE")"
 		# Bring up VXLAN
-		ip link add mesh-vpn type vxlan id "$(lua -e 'print(tonumber(require("gluon.util").domain_seed_bytes("gluon-mesh-vxlan", 3), 16))')" local $(interface_linklocal "$MESH_VPN_IFACE") remote fe80::1 dstport 4789 dev $MESH_VPN_IFACE
+		ip link add mesh-vpn type vxlan id "$(lua -e 'print(tonumber(require("gluon.util").domain_seed_bytes("gluon-mesh-vxlan", 3), 16))')" local $(interface_linklocal "$MESH_VPN_IFACE") remote fe80::1 dstport 4789 dev $MESH_VPN_IFACE udp6zerocsumtx udp6zerocsumrx
 		ip link set up dev mesh-vpn
 
 		sleep 5
