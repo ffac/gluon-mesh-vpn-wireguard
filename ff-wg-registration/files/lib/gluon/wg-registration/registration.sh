@@ -6,8 +6,8 @@ if [ "$(uci get gluon.mesh_vpn.enabled)" == "true" ] || [ "$(uci get gluon.mesh_
         if [ gw_count -gt 0 ]; then
                 logger -t wg-registration "uplink connected"
         else
-                wg show | grep "latest handshake"
-                if [ "$?" -eq "0" ]; then
+                # if lastest handshake is more than 10 minutes ago
+                if [ $(date --date="@$(( $(date +%s) - 600 ))" +"%s") -lt $(wg show wg_mesh_vpn latest-handshakes | cut -f2) ]; then
                         logger -t wg-registration "wg connected - but no batman"
                 else
                         logger -t wg-registration "No connection - trying to register"
