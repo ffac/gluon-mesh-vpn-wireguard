@@ -3,7 +3,7 @@
 if [ "$(uci get gluon.mesh_vpn.enabled)" == "true" ] || [ "$(uci get gluon.mesh_vpn.enabled)" == "1" ]; then
         # try to wget the broker to see if connection is available
         gw_count=$(batctl gwl -H|wc -l)
-        if [ gw_count -gt 0 ]; then
+        if [ $gw_count -gt 0 ]; then
                 logger -t wg-registration "uplink connected"
         else
                 # if lastest handshake is more than 10 minutes ago
