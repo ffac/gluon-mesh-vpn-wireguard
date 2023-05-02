@@ -1,12 +1,9 @@
 #!/bin/sh
 
 if [ "$(uci get gluon.mesh_vpn.enabled)" == "true" ] || [ "$(uci get gluon.mesh_vpn.enabled)" == "1" ]; then
-        # try to wget the broker to see if connection is available
-        gw_count=$(batctl gwl -H|wc -l)
-        if [ $gw_count -gt 0 ]; then
-                logger -t wg-registration "uplink connected"
-        else
-                # if lastest handshake is more than 10 minutes ago
+        # check if registration has been done since last boot
+        if [ -f /tmp/WG_REGISTRATION_SUCCESSFUL ]; then
+                # if latest handshake is more than 10 minutes ago
                 if [ $(date --date="@$(( $(date +%s) - 600 ))" +"%s") -lt $(wg show wg_mesh_vpn latest-handshakes | cut -f2) ]; then
                         logger -t wg-registration "wg connected - but no batman"
                 else
@@ -14,7 +11,7 @@ if [ "$(uci get gluon.mesh_vpn.enabled)" == "true" ] || [ "$(uci get gluon.mesh_
                         # Push public key to broker, test for https and use if supported
                         wget -q https://[::1]
                         if [ $? -eq 1 ]; then
-                                PROTO=http
+                                PROTO=https
                         else
                                 PROTO=http
                         fi
@@ -23,6 +20,10 @@ if [ "$(uci get gluon.mesh_vpn.enabled)" == "true" ] || [ "$(uci get gluon.mesh_
                         BROKER=$(uci get wireguard.mesh_vpn.broker)
                         logger -t wg-registration "Post $NODENAME and $PUBLICKEY to $PROTO://$BROKER"
                         gluon-wan wget -q  -O- --post-data='{"node_name": "'"$NODENAME"'","public_key": "'"$PUBLICKEY"'"}' $PROTO://$BROKER
+			if [ $? -eq 1 ]; then
+				touch /tmp/WG_REGISTRATION_SUCCESSFUL
+				logger -t wg-registration "successfully registered wg publickey"
+			fi
                 fi
 	fi
 fi
