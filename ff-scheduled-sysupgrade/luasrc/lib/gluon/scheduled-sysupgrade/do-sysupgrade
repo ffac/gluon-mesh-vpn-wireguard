@@ -51,4 +51,4 @@ if not switch_after_min_reached() and not switch_time_passed() then
 	os.exit(0)
 end
 
-unistd.execp("sysupgrade", {"/tmp/firmware.bin"})
+unistd.execp("sysupgrade", {"--ignore-minor-compat-version", "/tmp/firmware.bin"})
